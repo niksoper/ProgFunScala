@@ -6,3 +6,6 @@ run
 test
 run
 test
+compile
+debug
+test

@@ -1,7 +1,7 @@
 package recfun
 
-import Main.pascal
+//import Main.countChange
 
 object play {
-  pascal(-1, 0)                                   //> res0: Int = 2
+  //countChange(4, List(1, 2))
 }

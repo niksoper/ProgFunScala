@@ -3,12 +3,15 @@ import common._
 
 object Main {
   def main(args: Array[String]) {
-    println("Pascal's Triangle")
-    for (row <- 0 to 10) {
-      for (col <- 0 to row)
-        print(pascal(col, row) + " ")
-      println()
-    }
+//    println("Pascal's Triangle")
+//    for (row <- 0 to 10) {
+//      for (col <- 0 to row)
+//        print(pascal(col, row) + " ")
+//      println()
+//    }
+    
+    countChange(0, List(1, 2))
+    
   }
 
   /**
@@ -41,5 +44,30 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = 0
+  def countChange(money: Int, coins: List[Int]): Int = {
+
+    def useCoin(money: Int, coin: Int): Int =
+      if (coin <= money) money - coin
+      else money
+      
+    def iterCountChange(remainingMoney: Int, remainingCoins: List[Int], count: Int): Int = {
+      
+      if (remainingMoney == 0 || remainingCoins.isEmpty) count
+      else {
+        
+        def newMoney = useCoin(remainingMoney, remainingCoins.head)
+      
+	      if (remainingMoney > newMoney)
+	        if (newMoney == 0) iterCountChange(money, remainingCoins.tail, count + 1)
+	        else iterCountChange(newMoney, remainingCoins, count)
+	      else iterCountChange(remainingMoney, remainingCoins.tail, count)
+      }
+      
+      
+    }
+      
+    iterCountChange(money, coins, 0)
+    
+    
+  }
 }
