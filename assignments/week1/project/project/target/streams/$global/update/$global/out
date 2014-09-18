@@ -1242,7 +1242,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#cache;0.12.4!cache.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#test-agent;0.12.4!test-agent.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-tools.testing#test-interface;0.5!test-interface.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 625ms :: artifacts dl 32ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 656ms :: artifacts dl 29ms[0m
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT compile produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT runtime produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT test produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-test.xml[0m
@@ -1255,5 +1255,5 @@
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT sources produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-sources.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT docs produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for default#default-ba3006;0.1-SNAPSHOT pom produced in C:\Learning\scala\assignments\week1\project\project\target\resolution-cache\reports\default-default-ba3006-pom.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (625ms resolve - 32ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (656ms resolve - 29ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m
