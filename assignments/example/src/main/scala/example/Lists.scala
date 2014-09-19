@@ -42,13 +42,13 @@ object Lists {
    */
   def max(xs: List[Int]): Int = {
     
-    def max(a: Int, b: Int): Int = 
+    def maxInt(a: Int, b: Int): Int = 
       if (a > b) a
       else b
       
     def findMax(m: Int, xtail: List[Int]): Int =
       if (xtail.isEmpty) m
-      else findMax(max(m, xtail.head), xtail.tail)
+      else findMax(maxInt(m, xtail.head), xtail.tail)
     
     findMax(xs.head, xs.tail)
     
