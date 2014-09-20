@@ -44,10 +44,7 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = {
-    
-    println("F(" + money + ", " + coins + ")")
-    
+  def countChange(money: Int, coins: List[Int]): Int =
     if (money == 0) {
       // nothing to give so no coins is the only option, +1
       1 
@@ -64,6 +61,4 @@ object Main {
       countChange(money - coins.head, coins) + 
       countChange(money, coins.tail)
     }
-  }
-    
 }
