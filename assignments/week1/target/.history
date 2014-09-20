@@ -9,3 +9,7 @@ test
 compile
 debug
 test
+run
+test
+git diff -- src/main/scala/Main.scala
+test
