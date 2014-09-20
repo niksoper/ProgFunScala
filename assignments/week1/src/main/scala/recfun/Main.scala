@@ -45,29 +45,25 @@ object Main {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-
-    def useCoin(money: Int, coin: Int): Int =
-      if (coin <= money) money - coin
-      else money
-      
-    def iterCountChange(remainingMoney: Int, remainingCoins: List[Int], count: Int): Int = {
-      
-      if (remainingMoney == 0 || remainingCoins.isEmpty) count
-      else {
-        
-        def newMoney = useCoin(remainingMoney, remainingCoins.head)
-      
-	      if (remainingMoney > newMoney)
-	        if (newMoney == 0) iterCountChange(money, remainingCoins.tail, count + 1)
-	        else iterCountChange(newMoney, remainingCoins, count)
-	      else iterCountChange(remainingMoney, remainingCoins.tail, count)
-      }
-      
-      
+    
+    println("F(" + money + ", " + coins + ")")
+    
+    if (money == 0) {
+      // nothing to give so no coins is the only option, +1
+      1 
     }
+    else if (money < 0 || coins.isEmpty) {
+      // negative money or no coins and positive money, so not possible
+      0 
+    }
+    else {
+      // reduce the money by the first coin      
+      // +
+      // throw away the first coin
       
-    iterCountChange(money, coins, 0)
-    
-    
+      countChange(money - coins.head, coins) + 
+      countChange(money, coins.tail)
+    }
   }
+    
 }

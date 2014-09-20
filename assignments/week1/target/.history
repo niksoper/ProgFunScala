@@ -13,3 +13,6 @@ run
 test
 git diff -- src/main/scala/Main.scala
 test
+styleCheck
+submit nsoper@scottlogic.com JrtdGR34HG
+test
