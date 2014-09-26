@@ -77,6 +77,9 @@ class FunSetSuite extends FunSuite {
     val s1 = singletonSet(1)
     val s2 = singletonSet(2)
     val s3 = singletonSet(3)
+    val s4 = singletonSet(4)
+    val s5 = singletonSet(5)
+    val s6 = singletonSet(6)
   }
 
   /**
@@ -86,7 +89,7 @@ class FunSetSuite extends FunSuite {
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
-  ignore("singletonSet(1) contains 1") {
+  test("singletonSet(1) contains 1") {
     
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
@@ -98,10 +101,11 @@ class FunSetSuite extends FunSuite {
        * the test fails. This helps identifying which assertion failed.
        */
       assert(contains(s1, 1), "Singleton")
+      assert(!contains(s1, 2), "Singleton")
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
@@ -109,4 +113,88 @@ class FunSetSuite extends FunSuite {
       assert(!contains(s, 3), "Union 3")
     }
   }
+  
+  test("union can be chained") {
+    new TestSets {
+      val oneToSix = union(union(union(union(union(s1, s2), s3), s4), s5), s6)
+      assert(contains(oneToSix, 1), "Union 1")
+      assert(contains(oneToSix, 2), "Union 2")
+      assert(contains(oneToSix, 3), "Union 3")
+      assert(contains(oneToSix, 4), "Union 4")
+      assert(contains(oneToSix, 5), "Union 5")
+      assert(contains(oneToSix, 6), "Union 6")
+    }
+  }
+  
+  test("rangeSet includes numbers in range") {
+    
+    val upToTen = rangeSet(0, 10)
+    
+    assert(!contains(upToTen, -1), "Range -1")
+    assert(!contains(upToTen, 11), "Range 11")
+    
+    assert(contains(upToTen, 0), "Range 0")
+    assert(contains(upToTen, 1), "Range 1")
+    assert(contains(upToTen, 2), "Range 2")
+    assert(contains(upToTen, 3), "Range 3")
+    assert(contains(upToTen, 4), "Range 4")
+    assert(contains(upToTen, 5), "Range 5")
+    assert(contains(upToTen, 6), "Range 6")
+    assert(contains(upToTen, 7), "Range 7")
+    assert(contains(upToTen, 8), "Range 8")
+    assert(contains(upToTen, 9), "Range 9")
+    assert(contains(upToTen, 10), "Range 10")
+    
+  }
+  
+  test("intersect contains shared elements of sets") {
+    
+    val threeToFive = intersect(rangeSet(1, 5), rangeSet(3, 10))
+    
+    assert(!contains(threeToFive, 0))
+    assert(!contains(threeToFive, 2))
+    assert(!contains(threeToFive, 6))
+    assert(!contains(threeToFive, 11))
+    
+    assert(contains(threeToFive, 3))
+    assert(contains(threeToFive, 4))
+    assert(contains(threeToFive, 5))
+    
+  }
+  
+  test("diff contains elements of first set not in second set") {
+    
+    val oneToTwo = diff(rangeSet(1, 5), rangeSet(3, 10))
+    
+    assert(!contains(oneToTwo, 0))
+    assert(!contains(oneToTwo, 3))
+    assert(!contains(oneToTwo, 4))
+    assert(!contains(oneToTwo, 5))
+    assert(!contains(oneToTwo, 6))
+    assert(!contains(oneToTwo, 7))
+    assert(!contains(oneToTwo, 8))
+    assert(!contains(oneToTwo, 9))
+    assert(!contains(oneToTwo, 10))
+    assert(!contains(oneToTwo, 11))
+    
+    assert(contains(oneToTwo, 1))
+    assert(contains(oneToTwo, 2))
+    
+  }
+  
+  test("filter contains all elements in first set that satisfy predicate") {
+    
+    val twoAndFour = filter(rangeSet(1, 5), x => x % 2 == 0)
+    
+    assert(!contains(twoAndFour, 0))
+    assert(!contains(twoAndFour, 1))
+    assert(!contains(twoAndFour, 3))
+    assert(!contains(twoAndFour, 5))
+    assert(!contains(twoAndFour, 6))
+    
+    assert(contains(twoAndFour, 2))
+    assert(contains(twoAndFour, 4))
+    
+  }
+  
 }
