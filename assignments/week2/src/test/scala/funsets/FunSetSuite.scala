@@ -247,5 +247,16 @@ class FunSetSuite extends FunSuite {
     
   }
   
+  test("map - doubling stays within range") {
+    
+    val expectedSet = intersect(rangeSet(-bound, bound), multipleSet(2))
+
+    def allInts(x: Int): Set = x => true
+    
+    val mapped = map(x => true, x => x * 2)
+    
+    assert(forall(mapped, expectedSet))
+    
+  }
   
 }

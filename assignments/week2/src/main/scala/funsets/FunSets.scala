@@ -88,12 +88,20 @@ object FunSets {
   def exists(s: Set, p: Int => Boolean): Boolean = 
     !forall(intersect(s, p), x => false)
     
-
   /**
    * Returns a set transformed by applying `f` to each element of `s`.
    */
-  def map(s: Set, f: Int => Int): Set = 
-    x => s(f(x))
+  def map(s: Set, f: Int => Int): Set = {
+    
+    def iter(a: Int, iterSet: Set): Set = {
+      if (a > bound) iterSet
+      else if (contains(s, a)) iter(a + 1, union(iterSet, singletonSet(f(a))))
+      else iter(a + 1, iterSet)
+    }
+    
+    iter(-bound, x => false)
+    
+  }
 
   /**
    * Displays the contents of a set
