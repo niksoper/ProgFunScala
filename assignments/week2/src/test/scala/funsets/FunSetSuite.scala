@@ -236,5 +236,16 @@ class FunSetSuite extends FunSuite {
     
   }
   
+  test("map - one to ten, plus one") {
+    
+    val oneToTen = rangeSet(1, 10)
+    val twoToEleven = rangeSet(2, 11)
+    
+    val mapped = map(oneToTen, x => x + 1)
+    
+    assert(forall(mapped, twoToEleven))
+    
+  }
+  
   
 }
