@@ -197,4 +197,27 @@ class FunSetSuite extends FunSuite {
     
   }
   
+  test("forall - all multiples of four are multiples of two") {
+    
+    assert(forall(multipleSet(4), multipleSet(2)))
+    
+  }
+
+  test("forall - not all multiples of two are multiples of four") {
+    
+    assert(!forall(multipleSet(2), multipleSet(4)))
+    
+  }
+  
+  test("forall - all negative numbers are less than 1") {
+    
+    val negatives = lessThanSet(0)
+    val lessThanOne = lessThanSet(1)
+    
+    assert(forall(negatives, lessThanOne))
+    
+  }
+  
+  
+  
 }

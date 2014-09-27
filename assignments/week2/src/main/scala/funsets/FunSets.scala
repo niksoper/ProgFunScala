@@ -22,7 +22,13 @@ object FunSets {
    */
   def rangeSet(min: Int, max: Int): Set =
     x => (x >= min) && (x <= max)
+    
+  def multipleSet(m: Int): Set =
+    x => x % m == 0
   
+  def lessThanSet(n: Int): Set =
+    x => x < n
+    
   /**
    * Returns the set of the one given element.
    */
@@ -65,12 +71,14 @@ object FunSets {
    * Returns whether all bounded integers within `s` satisfy `p`.
    */
   def forall(s: Set, p: Int => Boolean): Boolean = {
+      
     def iter(a: Int): Boolean = {
-      if (???) ???
-      else if (???) ???
-      else iter(???)
+      if (a > bound) true
+      else if (contains(s, a) && !contains(filter(s, p), a)) false
+      else iter(a + 1)
     }
-    iter(???)
+    
+    iter(-bound)
   }
 
   /**
