@@ -218,6 +218,23 @@ class FunSetSuite extends FunSuite {
     
   }
   
+  test("exists - there is at least one even number between one and ten") {
+    
+    val evens = multipleSet(2)
+    val oneToTen = rangeSet(1, 10)
+    
+    assert(exists(oneToTen, evens))
+    
+  }
+  
+  test("exists - there is no multiple of eleven between one and ten") {
+    
+    val elevens = multipleSet(11)
+    val oneToTen = rangeSet(1, 10)
+    
+    assert(!exists(oneToTen, elevens))
+    
+  }
   
   
 }
