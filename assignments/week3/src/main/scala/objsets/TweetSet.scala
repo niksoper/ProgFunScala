@@ -55,7 +55,14 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def union(that: TweetSet): TweetSet = unionAcc(that, new Empty)
+  def union(that: TweetSet): TweetSet = {
+    
+    val thisAndThat = this.unionAcc(that, new Empty)
+    val thatAndThis = that.unionAcc(this, thisAndThat)
+    
+    thatAndThis
+    
+  }
    
   def unionAcc(that: TweetSet, acc: TweetSet): TweetSet
      
@@ -148,7 +155,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def unionAcc(that: TweetSet, acc: TweetSet): TweetSet = {
     
-     val withElem = if (!that.contains(elem)) acc.incl(elem) else acc
+     val withElem = acc.incl(elem)
      val withLeft = left.unionAcc(that, withElem)
      val withRight = right.unionAcc(that, withLeft)
      

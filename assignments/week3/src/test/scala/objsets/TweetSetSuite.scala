@@ -91,11 +91,11 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("descending: set5") {
-    new BalancedTestSets {
-      val trends = set5.descendingByRetweet
-      assert(!trends.isEmpty)
-      assert(trends.head.user == "a" || trends.head.user == "b")
-    }
-  }
+//  test("descending: set5") {
+//    new BalancedTestSets {
+//      val trends = set5.descendingByRetweet
+//      assert(!trends.isEmpty)
+//      assert(trends.head.user == "a" || trends.head.user == "b")
+//    }
+//  }
 }
