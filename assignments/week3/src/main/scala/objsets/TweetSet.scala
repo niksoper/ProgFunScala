@@ -145,7 +145,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def union(that: TweetSet): TweetSet = {
     
-    var u: TweetSet = new NonEmpty(elem, new Empty, new Empty)
+    var u: TweetSet = new Empty
     
     that.foreach(t => u = u.incl(t))
     this.foreach(t => u = u.incl(t))
