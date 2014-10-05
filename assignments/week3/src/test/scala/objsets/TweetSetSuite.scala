@@ -28,6 +28,13 @@ class TweetSetSuite extends FunSuite {
     val set4d = set3.incl(d)
     val set5 = set4c.incl(d)
     val megaSet = set5.incl(new Tweet("Alan", "Horse", 50))
+    
+    
+    def nth(n: Int, tl: TweetList): Tweet =
+      if (tl.isEmpty) throw new NoSuchElementException("nth of empty TweetList: [" + n + "]")
+      else if (n < 0) throw new IndexOutOfBoundsException
+      else if (n == 0) tl.head
+      else nth(n - 1, tl.tail)
   }
 
   def asSet(tweets: TweetSet): Set[Tweet] = {
@@ -112,11 +119,15 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-//  test("descending: set5") {
-//    new BalancedTestSets {
-//      val trends = set5.descendingByRetweet
-//      assert(!trends.isEmpty)
-//      assert(trends.head.user == "a" || trends.head.user == "b")
-//    }
-//  }
+  test("descending: megaSet") {
+    new BalancedTestSets {
+      val trends = megaSet.descendingByRetweet
+      assert(!trends.isEmpty)
+      assert(nth(0, trends).user === "Alan")
+      assert(nth(1, trends).user === "a")
+      assert(nth(2, trends).user === "b")
+      assert(nth(3, trends).user === "d")
+      assert(nth(4, trends).user === "c")
+    }
+  }
 }

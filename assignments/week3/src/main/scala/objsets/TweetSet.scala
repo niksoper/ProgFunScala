@@ -89,8 +89,27 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = {
+    
+    def reverseList(a: TweetList, b: TweetList): TweetList = {
+      if (a.isEmpty) b
+      else reverseList(a.tail, new Cons(a.head, b))
+    }
+ 
+    def tailOrNil(tl: TweetList): TweetList = 
+      if (tl.isEmpty) Nil 
+      else tl.tail
+      
+    val ascending = ascendingByRetweetAcc(Nil)
+    val descending = reverseList(ascending, Nil)
+    
+    descending.foreach(println(_))
+    
+    descending
+    
+  }
 
+  def ascendingByRetweetAcc(acc: TweetList): TweetList 
 
   /**
    * The following methods are already implemented
@@ -133,6 +152,8 @@ class Empty extends TweetSet {
   def isEmpty: Boolean = true
   
   def findMostRetweeted(mostSoFar: Tweet): Tweet = mostSoFar
+  
+  def ascendingByRetweetAcc(acc: TweetList): TweetList = acc
   
   /**
    * The following methods are already implemented
@@ -187,6 +208,16 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 	val rightMost = right.findMostRetweeted(leftMost)
 	  
 	rightMost
+  }
+  
+  def ascendingByRetweetAcc(acc: TweetList): TweetList = {
+    
+    val most = mostRetweeted
+    val newAcc = new Cons(most, acc)
+    val setWithoutBiggest = remove(most)
+    
+    setWithoutBiggest.ascendingByRetweetAcc(newAcc)
+    
   }
   
   /**
