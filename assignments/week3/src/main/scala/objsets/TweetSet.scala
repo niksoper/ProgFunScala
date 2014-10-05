@@ -189,22 +189,6 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 	rightMost
   }
   
-  
-  
-//  def mostRetweeted: Tweet = {
-//    
-//    def most(a: Tweet): Boolean = (elem.retweets >= a.retweets)
-//    
-//    
-//    
-//    val mostSet: TweetSet = filter(most)
-//    mostSet.foreach(println(_))
-//    
-//    new Tweet("X", "x", 0)
-//    
-//      
-//  }
-  
   /**
    * The following methods are already implemented
    */
