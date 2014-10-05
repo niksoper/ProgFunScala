@@ -95,15 +95,9 @@ abstract class TweetSet {
       if (a.isEmpty) b
       else reverseList(a.tail, new Cons(a.head, b))
     }
- 
-    def tailOrNil(tl: TweetList): TweetList = 
-      if (tl.isEmpty) Nil 
-      else tl.tail
-      
+    
     val ascending = ascendingByRetweetAcc(Nil)
     val descending = reverseList(ascending, Nil)
-    
-    descending.foreach(println(_))
     
     descending
     
@@ -184,19 +178,15 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   def unionAcc(that: TweetSet, acc: TweetSet): TweetSet = {
     
-     val withElem = acc.incl(elem)
-     val withLeft = left.unionAcc(that, withElem)
+     val withElem  = acc.incl(elem)
+     val withLeft  = left.unionAcc(that, withElem)
      val withRight = right.unionAcc(that, withLeft)
      
      withRight
     
   }
   
-  def mostRetweeted: Tweet = {
-    
-    findMostRetweeted(elem)
-    
-  }
+  def mostRetweeted: Tweet = findMostRetweeted(elem)
   
   def findMostRetweeted(mostSoFar: Tweet): Tweet = {
     
@@ -208,13 +198,14 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 	val rightMost = right.findMostRetweeted(leftMost)
 	  
 	rightMost
+	
   }
   
   def ascendingByRetweetAcc(acc: TweetList): TweetList = {
     
-    val most = mostRetweeted
+    val most = this.mostRetweeted
     val newAcc = new Cons(most, acc)
-    val setWithoutBiggest = remove(most)
+    val setWithoutBiggest = this.remove(most)
     
     setWithoutBiggest.ascendingByRetweetAcc(newAcc)
     
@@ -274,10 +265,12 @@ object GoogleVsApple {
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
   def textIncludesKeyWords(words: List[String]): Tweet => Boolean = 
-    t => words.exists(t.text.contains(_))
+    (t: Tweet) => words.exists(t.text.contains(_))
   
-  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(textIncludesKeyWords(google))
-  lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(textIncludesKeyWords(apple))
+  val allTweets = TweetReader.allTweets
+    
+  lazy val googleTweets: TweetSet = allTweets.filter(textIncludesKeyWords(google))
+  lazy val appleTweets: TweetSet  = allTweets.filter(textIncludesKeyWords(apple))
 
   /**
    * A list of all tweets mentioning a keyword from either apple or google,
