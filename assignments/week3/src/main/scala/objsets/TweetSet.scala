@@ -76,7 +76,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
+  
+  def findMostRetweeted(mostSoFar: Tweet): Tweet
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -125,7 +127,13 @@ class Empty extends TweetSet {
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
   def unionAcc(that: TweetSet, acc: TweetSet): TweetSet = acc
-
+  
+  def mostRetweeted: Tweet = throw new NoSuchElementException
+  
+  def isEmpty: Boolean = true
+  
+  def findMostRetweeted(mostSoFar: Tweet): Tweet = mostSoFar
+  
   /**
    * The following methods are already implemented
    */
@@ -162,7 +170,41 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
      withRight
     
   }
-
+  
+  def mostRetweeted: Tweet = {
+    
+    findMostRetweeted(elem)
+    
+  }
+  
+  def findMostRetweeted(mostSoFar: Tweet): Tweet = {
+    
+    def chooseMost(a: Tweet, b: Tweet): Tweet =
+      if (a.retweets >= b.retweets) a else b
+    
+    val elemMost = chooseMost(mostSoFar, elem)
+	val leftMost = left.findMostRetweeted(elemMost)
+	val rightMost = right.findMostRetweeted(leftMost)
+	  
+	rightMost
+  }
+  
+  
+  
+//  def mostRetweeted: Tweet = {
+//    
+//    def most(a: Tweet): Boolean = (elem.retweets >= a.retweets)
+//    
+//    
+//    
+//    val mostSet: TweetSet = filter(most)
+//    mostSet.foreach(println(_))
+//    
+//    new Tweet("X", "x", 0)
+//    
+//      
+//  }
+  
   /**
    * The following methods are already implemented
    */
