@@ -26,6 +26,21 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("times - abbccc") {
+    val chars = List('a', 'b', 'b', 'c', 'c', 'c')
+    assert(times(chars) === List(('a', 1), ('b', 2), ('c', 3)))
+  }
+
+  test("times - abbacccb") {
+    val chars = List('a', 'b', 'b', 'a', 'c', 'c', 'c', 'b')
+    assert(times(chars) === List(('a', 2), ('b', 3), ('c', 3)))
+  }
+  
+  test("times - empty list") {
+    val chars = List()
+    assert(times(chars) === List())
+  }
+  
 //  test("string2chars(\"hello, world\")") {
 //    assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
 //  }
