@@ -127,8 +127,7 @@ object Huffman {
     case Nil => trees
     case _ :: Nil => trees
     case _ :: _ :: Nil => trees
-    case first :: second :: _ => 
-      combine(Fork(first, second, chars(first) ::: chars(second), weight(first) + weight(second)) :: trees.tail.tail)
+    case first :: second :: _ => combine(makeCodeTree(first, second) :: trees.tail.tail)
   }
 
   /**
