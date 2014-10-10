@@ -41,14 +41,18 @@ class HuffmanSuite extends FunSuite {
     assert(times(chars) === List())
   }
   
-//  test("string2chars(\"hello, world\")") {
-//    assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
-//  }
-//
-//  test("makeOrderedLeafList for some frequency table") {
-//    assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
-//  }
-//
+  test("string2chars(\"hello, world\")") {
+    assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
+  }
+
+  test("makeOrderedLeafList for some frequency table") {
+    assert(makeOrderedLeafList(List(('t', 2), ('e', 1), ('x', 3))) === List(Leaf('e',1), Leaf('t',2), Leaf('x',3)))
+  }
+
+  test("makeOrderedLeafList for empty list") {
+    assert(makeOrderedLeafList(Nil) === Nil)
+  }
+
 //  test("combine of some leaf list") {
 //    val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
 //    assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
