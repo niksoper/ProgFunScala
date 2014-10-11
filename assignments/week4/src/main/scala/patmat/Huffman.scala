@@ -126,8 +126,17 @@ object Huffman {
   def combine(trees: List[CodeTree]): List[CodeTree] = trees match {
     case Nil => trees
     case _ :: Nil => trees
-    case _ :: _ :: Nil => trees
-    case first :: second :: _ => combine(makeCodeTree(first, second) :: trees.tail.tail)
+    case first :: second :: _ => {
+    
+      val fork = makeCodeTree(first, second)
+      val forkWeight = weight(fork)
+      val rest = trees.tail.tail
+      val lighter = rest.filter(x => weight(x) < forkWeight)
+      val notLighter = rest.filter(x => weight(x) >= forkWeight)
+      
+      lighter ::: fork :: notLighter
+
+    }
   }
 
   /**
