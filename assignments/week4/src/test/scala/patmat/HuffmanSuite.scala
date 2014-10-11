@@ -12,8 +12,30 @@ class HuffmanSuite extends FunSuite {
   trait TestTrees {
     val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
     val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
+    val threeLeaves = List(Leaf('e',1), Leaf('t',2), Leaf('x',3))
   }
 
+  test("until - t1") {    
+    new TestTrees {
+      val result = until(singleton, combine)(List(t1))
+      assert(result === List(t1))
+    }    
+  }
+
+  test("until - t2") {    
+    new TestTrees {
+      val result = until(singleton, combine)(List(t2))
+      assert(result === List(t2))
+    }    
+  }
+
+  test("until - threeLeaves") {    
+    new TestTrees {
+      val result = until(singleton, combine)(threeLeaves)
+      assert(result === List(Fork(Fork(Leaf('e',1), Leaf('t',2), List('e', 't'), 3), Leaf('x',3), List('e', 't', 'x'), 6)))
+    }    
+  }
+  
   test("weight of a larger tree") {
     new TestTrees {
       assert(weight(t1) === 5)
