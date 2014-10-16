@@ -27,13 +27,13 @@ object Huffman {
   // Part 1: Basics
 
   def weight(tree: CodeTree): Int = tree match {
-    case Leaf(char, weight) => weight
-    case Fork(l, r, chars, weight) => weight
+    case Leaf(_, weight) => weight
+    case Fork(_, _, _, weight) => weight
   }
 
   def chars(tree: CodeTree): List[Char] = tree match {
-    case Leaf(char, weight) => List(char)
-    case Fork(l, r, chars, weight) => chars
+    case Leaf(char, _) => List(char)
+    case Fork(_, _, chars, _) => chars
   }
 
   def makeCodeTree(left: CodeTree, right: CodeTree) =
