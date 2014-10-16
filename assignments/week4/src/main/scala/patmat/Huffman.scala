@@ -166,7 +166,13 @@ object Huffman {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-  def createCodeTree(chars: List[Char]): CodeTree = ???
+  def createCodeTree(chars: List[Char]): CodeTree = {
+    val charCounts = times(chars)
+    val leafList = makeOrderedLeafList(charCounts)
+    val reduction = until(singleton, combine)(leafList)
+    
+    reduction.head
+  }
 
 
 

@@ -109,6 +109,11 @@ class HuffmanSuite extends FunSuite {
     assert(combine(Nil) === Nil)
   }
 
+  test("createCodeTree - abbccc") {
+    val codeTree = createCodeTree("abbccc".toList)
+    assert(codeTree === Fork(Fork(Leaf('a', 1), Leaf('b', 2), List('a', 'b'), 3), Leaf('c', 3), List('a', 'b', 'c'), 6))
+  }
+  
 //  test("decode and encode a very short text should be identity") {
 //    new TestTrees {
 //      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
