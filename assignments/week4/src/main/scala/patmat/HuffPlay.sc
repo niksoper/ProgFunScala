@@ -1,6 +1,7 @@
 package patmat
 
+import Huffman._
+
 object HuffPlay {
-  val list = List(1,2,5,-1,2,7)                   //> list  : List[Int] = List(1, 2, 5, -1, 2, 7)
-  val sorted = list.sortWith((a, b) => b < a)     //> sorted  : List[Int] = List(7, 5, 2, 2, 1, -1)
+  decodedSecret                                   //> res0: List[Char] = List(h, u, f, f, m, a, n, e, s, t, c, o, o, l)
 }

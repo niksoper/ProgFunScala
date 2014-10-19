@@ -178,7 +178,25 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    
+    def append(c: Char, cs: List[Char]): List[Char] = cs ::: List(c)
+      
+    def decodeAcc(workingTree: CodeTree, workingBits: List[Bit], charsSoFar: List[Char]): List[Char] =  (workingTree, workingBits) match {
+      
+      case (_, Nil) => charsSoFar
+      
+      case (Leaf(c, _), _ :: bs) => 				decodeAcc(tree,	bs,	append(c, charsSoFar))
+      case (Fork(Leaf(c, _), _, _, _), 0 :: bs) => 	decodeAcc(tree, bs,	append(c, charsSoFar))
+      case (Fork(_, Leaf(c, _), _, _), 1 :: bs) => 	decodeAcc(tree, bs,	append(c, charsSoFar))
+      case (Fork(next, _, _, _), 0 :: bs) => 		decodeAcc(next,	bs,	charsSoFar)
+      case (Fork(_, next, _, _), 1 :: bs) => 		decodeAcc(next,	bs,	charsSoFar)
+      
+    }
+    
+    decodeAcc(tree, bits, Nil)
+      
+  }
 
   /**
    * A Huffman coding tree for the French language.
@@ -196,7 +214,7 @@ object Huffman {
   /**
    * Write a function that returns the decoded secret
    */
-  def decodedSecret: List[Char] = ???
+  def decodedSecret: List[Char] = decode(frenchCode, secret)
 
 
 
@@ -206,7 +224,30 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+    
+    def encodeChar(treeNode: CodeTree, charsLeft: List[Char], encoding: List[Bit]): List[Bit] = {
+      
+      if (charsLeft.isEmpty) encoding
+      
+      else if (!chars(treeNode).contains(charsLeft.head)) throw new Error("The encoding doesn't contain '" + charsLeft.head + "'")
+      
+      else treeNode match {
+        
+        case Leaf(_, _) => encodeChar(tree, charsLeft.tail, encoding)
+        
+        case Fork(l, r, _, _) => {
+          if (chars(l).contains(charsLeft.head)) 	0 :: encodeChar(l, charsLeft, encoding)
+          else 										1 :: encodeChar(r, charsLeft, encoding)
+        }
+        
+      }
+      
+    }
+    
+    encodeChar(tree, text, Nil)
+    
+  }
 
 
   // Part 4b: Encoding using code table

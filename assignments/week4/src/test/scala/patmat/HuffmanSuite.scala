@@ -13,6 +13,7 @@ class HuffmanSuite extends FunSuite {
     val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
     val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
     val threeLeaves = List(Leaf('e',1), Leaf('t',2), Leaf('x',3))
+    val leaf = Leaf('x', 5)
   }
 
   test("until - t1") {    
@@ -114,9 +115,55 @@ class HuffmanSuite extends FunSuite {
     assert(codeTree === Fork(Fork(Leaf('a', 1), Leaf('b', 2), List('a', 'b'), 3), Leaf('c', 3), List('a', 'b', 'c'), 6))
   }
   
-//  test("decode and encode a very short text should be identity") {
-//    new TestTrees {
-//      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
-//    }
-//  }
+  test("decode a leaf") {
+    new TestTrees {
+      assert(decode(leaf, List(0)) === List('x'))
+      assert(decode(leaf, List(1)) === List('x'))
+    }
+  }
+  
+  test("decode a left fork") {
+    new TestTrees {
+      assert(decode(t1, List(0)) === List('a'))
+    }
+  }
+
+  test("decode a right fork") {
+    new TestTrees {
+      assert(decode(t1, List(1)) === List('b'))
+    }
+  }
+  
+  test("decode a left and right of a fork") {
+    new TestTrees {
+      assert(decode(t1, List(0, 1)) === List('a', 'b'))
+    }
+  }
+  
+  test("decode a tree with more than one level") {
+    new TestTrees {
+      assert(decode(t2, List(0, 1)) === List('b'))
+      assert(decode(t2, List(1, 0, 0, 0, 1)) === List('d', 'a', 'b'))
+    }
+  }
+  
+  test("decode empty list") {
+    new TestTrees {
+      assert(decode(t1, Nil) === Nil)
+      assert(decode(t2, Nil) === Nil)
+      assert(decode(leaf, Nil) === Nil)
+    }
+  }
+  
+  test("encode empty list") {
+    new TestTrees {
+      assert(encode(t2)(Nil) === Nil)
+    }
+  }
+  
+  test("decode and encode a very short text should be identity") {
+    new TestTrees {
+      assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
 }
