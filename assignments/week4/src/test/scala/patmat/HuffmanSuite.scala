@@ -166,4 +166,38 @@ class HuffmanSuite extends FunSuite {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
   }
+  
+  test("quickEncode empty list") {
+    new TestTrees {
+      assert(quickEncode(t2)(Nil) === Nil)
+    }
+  }
+  
+  test("decode and quickEncode a very short text should be identity") {
+    new TestTrees {
+      assert(decode(t1, quickEncode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+  
+  test("codeBits char not in table") {
+    val table = List(('a', List(0)), ('b', List(1)))
+    assert(codeBits(table)('c') === Nil)
+  }
+  
+  test("codeBits char in table") {
+    val table = List(('a', List(0)), ('b', List(1)))
+    assert(codeBits(table)('b') === List(1))
+  }
+
+  test("convert t1") {
+    new TestTrees {
+      assert(convert(t1) === List(('a', List(0)), ('b', List(1))))
+    }
+  }
+  
+  test("convert t2") {
+    new TestTrees {
+      assert(convert(t2) === List(('a', List(0,0)), ('b', List(0,1)), ('d', List(1))))
+    }
+  }
 }
