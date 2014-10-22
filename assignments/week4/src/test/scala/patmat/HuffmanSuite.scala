@@ -115,6 +115,12 @@ class HuffmanSuite extends FunSuite {
     assert(codeTree === Fork(Fork(Leaf('a', 1), Leaf('b', 2), List('a', 'b'), 3), Leaf('c', 3), List('a', 'b', 'c'), 6))
   }
   
+  test("createCodeTree - empty throws exception") {
+    intercept[Error]{
+      createCodeTree(Nil)
+    }
+  }
+  
   test("decode a leaf") {
     new TestTrees {
       assert(decode(leaf, List(0)) === List('x'))

@@ -95,9 +95,7 @@ object Huffman {
       if (fs.isEmpty) leaves
       else makeLeaves(fs.tail, Leaf(fs.head._1, fs.head._2) :: leaves)
     
-    val sortedDesc = freqs.sortWith((a, b) => a._2 > b._2)
-    
-    makeLeaves(sortedDesc, Nil)
+    makeLeaves(freqs.sortWith((a, b) => a._2 > b._2), Nil)
     
   }
     
@@ -166,8 +164,10 @@ object Huffman {
    * The parameter `chars` is an arbitrary text. This function extracts the character
    * frequencies from that text and creates a code tree based on them.
    */
-  def createCodeTree(chars: List[Char]): CodeTree = 
-    until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+  def createCodeTree(chars: List[Char]): CodeTree = {
+    if (chars.isEmpty) throw new Error("createCodeTree with empty list")
+    else until(singleton, combine)(makeOrderedLeafList(times(chars))).head
+  }    
 
 
   // Part 3: Decoding
@@ -179,18 +179,17 @@ object Huffman {
    * the resulting list of characters.
    */
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-    
-    def append(c: Char, cs: List[Char]): List[Char] = cs ::: List(c)
       
     def decodeAcc(workingTree: CodeTree, workingBits: List[Bit], charsSoFar: List[Char]): List[Char] =  (workingTree, workingBits) match {
       
-      case (_, Nil) => charsSoFar
+      case (_, Nil) 							=>	charsSoFar
       
-      case (Leaf(c, _), _ :: bs) => 				decodeAcc(tree,	bs,	append(c, charsSoFar))
-      case (Fork(Leaf(c, _), _, _, _), 0 :: bs) => 	decodeAcc(tree, bs,	append(c, charsSoFar))
-      case (Fork(_, Leaf(c, _), _, _), 1 :: bs) => 	decodeAcc(tree, bs,	append(c, charsSoFar))
-      case (Fork(next, _, _, _), 0 :: bs) => 		decodeAcc(next,	bs,	charsSoFar)
-      case (Fork(_, next, _, _), 1 :: bs) => 		decodeAcc(next,	bs,	charsSoFar)
+      case (Leaf(c, _), _ :: bs) 				=>	c :: decodeAcc(tree, bs, charsSoFar)
+      case (Fork(Leaf(c, _), _, _, _), 0 :: bs) => 	c :: decodeAcc(tree, bs, charsSoFar)
+      case (Fork(_, Leaf(c, _), _, _), 1 :: bs) => 	c :: decodeAcc(tree, bs, charsSoFar)
+      
+      case (Fork(next, _, _, _), 0 :: bs) 		=>	decodeAcc(next,	bs,	charsSoFar)
+      case (Fork(_, next, _, _), 1 :: bs) 		=>	decodeAcc(next,	bs,	charsSoFar)
       
     }
     
@@ -224,28 +223,28 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {
+  def encode(tree: CodeTree)(text: List[Char]): List[Bit] = {   
     
-    def encodeChar(treeNode: CodeTree, charsLeft: List[Char], encoding: List[Bit]): List[Bit] = {
+    if (text.isEmpty) Nil
+    else if (!chars(tree).contains(text.head)) throw new Error("The encoding doesn't contain '" + text.head + "'")
+    else {
       
-      if (charsLeft.isEmpty) encoding
+      def encodeChar(treeNode: CodeTree, charsLeft: List[Char], encoding: List[Bit]): List[Bit] = {
       
-      else if (!chars(treeNode).contains(charsLeft.head)) throw new Error("The encoding doesn't contain '" + charsLeft.head + "'")
-      
-      else treeNode match {
+        if (charsLeft.isEmpty) encoding      
+        else treeNode match {
         
-        case Leaf(_, _) => encodeChar(tree, charsLeft.tail, encoding)
+          case Leaf(_, _) => encodeChar(tree, charsLeft.tail, encoding)        
+          case Fork(l, r, _, _) => {
+            if (chars(l).contains(charsLeft.head)) 	0 :: encodeChar(l, charsLeft, encoding)
+            else 										1 :: encodeChar(r, charsLeft, encoding)
+          }
         
-        case Fork(l, r, _, _) => {
-          if (chars(l).contains(charsLeft.head)) 	0 :: encodeChar(l, charsLeft, encoding)
-          else 										1 :: encodeChar(r, charsLeft, encoding)
-        }
-        
+        }      
       }
-      
-    }
     
-    encodeChar(tree, text, Nil)
+      encodeChar(tree, text, Nil)
+    } 
     
   }
 
@@ -258,10 +257,10 @@ object Huffman {
    * This function returns the bit sequence that represents the character `char` in
    * the code table `table`.
    */
-  def codeBits(table: CodeTable)(char: Char): List[Bit] = 
-    if (table.isEmpty) Nil
-    else if (table.head._1 == char) table.head._2
-    else codeBits(table.tail)(char)
+  def codeBits(table: CodeTable)(char: Char): List[Bit] = table match {
+    case Nil => Nil
+    case (c, bits) :: tail 	=> if (c == char) bits else codeBits(tail)(char)
+  }
 
   /**
    * Given a code tree, create a code table which contains, for every character in the
