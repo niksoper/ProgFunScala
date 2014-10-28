@@ -25,8 +25,8 @@ object play {
  	} yield (o._1, on.count(occ => occ._1 == o._1))
                                                   //> result  : List[(Char, Int)] = List((a,1), (a,1), (a,1), (b,1), (b,1), (b,1),
                                                   //|  (c,1), (c,1), (c,1))
-   
- 
+  val ss = List("aW", "R", "e")                   //> ss  : List[String] = List(aW, R, e)
+  ss.flatten mkString                             //> res4: String = aWRe
  
  
 }

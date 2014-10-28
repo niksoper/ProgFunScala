@@ -39,18 +39,7 @@ object Anagrams {
   }
 
   /** Converts a sentence into its character occurrence list. */
-  def sentenceOccurrences(s: Sentence): Occurrences = s match {
-    case Nil => Nil
-    case head :: tail => {
-      
-      for {
-        wordOccs <- wordOccurrences(head)
-        sentOccs <- sentenceOccurrences(tail)
-      } yield (wordOccs._1, sentOccs.filter(occ => occ._1 == wordOccs._1).map(occ => ))
-      
-      //(wordOccurrences(head) ::: sentenceOccurrences(tail)) 
-    }
-  }
+  def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s.flatten.mkString)
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
    *  the words that have that occurrence count.
