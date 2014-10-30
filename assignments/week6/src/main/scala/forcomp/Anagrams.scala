@@ -39,7 +39,7 @@ object Anagrams {
   }
 
   /** Converts a sentence into its character occurrence list. */
-  def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s.flatten.mkString)
+  def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s.flatten mkString)
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
    *  the words that have that occurrence count.
@@ -85,32 +85,9 @@ object Anagrams {
    */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
     
-    def addCombination(occs: Occurrences, combs: List[Occurrences]): List[Occurrences] = occs match {
-      case Nil => combs
-      case (c, n) :: tail => ???//addCombinations(???, ???)
-    }
-    
-    addCombination(occurrences, List(Nil))
+    ???
     
   }
-  //occurrences match {
-    
-    //???
-    
-//    case Nil => List(Nil)
-//    case (c, n) :: Nil => {
-//      for {
-//        cn <- n to 1 by -1
-//      } yield List((c, cn))
-//    }.toList
-//    case (c, n) :: tail => {
-//      for {
-//        cn <- n to 1 by -1
-//        comb <- combinations take
-//      } yield List((c, cn)) ::: combinations(tail)
-//    }.toList
-    
-  //}
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
