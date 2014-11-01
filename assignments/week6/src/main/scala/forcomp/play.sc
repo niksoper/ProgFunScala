@@ -4,17 +4,17 @@ import Anagrams._
 
 object play {
 
-  val w = "Hello"                                 //> w  : String = Hello
-  w foreach println                               //> H
-                                                  //| e
-                                                  //| l
-                                                  //| l
-                                                  //| o
-  w groupBy (c => c) map (p => (p._1 -> p._2.length))
-                                                  //> res0: scala.collection.immutable.Map[Char,Int] = Map(e -> 1, l -> 2, H -> 1,
-                                                  //|  o -> 1)
-  w.toList groupBy (c => c)                       //> res1: scala.collection.immutable.Map[Char,List[Char]] = Map(e -> List(e), l 
-                                                  //| -> List(l, l), H -> List(H), o -> List(o))
+  val s = List("I", "love", "you")                //> s  : List[String] = List(I, love, you)
+  val words = wordsFromSentence(s)                //> words  : forcomp.Anagrams.Sentence = List(Eli, Ely, evil, Io, ivy, Leo, Lev,
+                                                  //|  Levi, levy, lie, lieu, live, Lou, love, Loy, oil, oily, olive, veil, vie, v
+                                                  //| ile, you)
+  val reduced = subtract(sentenceOccurrences(s), wordOccurrences(words(0)))
+                                                  //> reduced  : forcomp.Anagrams.Occurrences = List((o,2), (u,1), (v,1), (y,1))
+  
+  reduced foreach println                         //> (o,2)
+                                                  //| (u,1)
+                                                  //| (v,1)
+                                                  //| (y,1)
   
 
 }

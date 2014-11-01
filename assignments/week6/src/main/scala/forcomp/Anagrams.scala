@@ -185,22 +185,14 @@ object Anagrams {
    */
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
     
-	  List(Nil)
+    List(Nil)
     
-//    def accumulate(occs: Occurrences, acc: List[Sentence]): List[Sentence] = {
-//      if (occs.isEmpty) acc
-//      else {
-//        
-//        val wordsForOccs = wordsFromOccurrences(occs)
-//        
-//        wordForOccs.flatMap(Sentence)
-//        
-//      }
-//    }
-//    
-//    accumulate(sentenceOccurrences(sentence), List(Nil))
-    
-    //subtract(sentenceOccurrences(sentence), wordOccurrences(allWords(0)))
+//	  if (sentence.isEmpty) List(Nil)
+//	  else {
+//	    
+//	    
+//	    
+//	  }
     
   }
   
