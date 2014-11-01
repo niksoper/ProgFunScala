@@ -94,7 +94,17 @@ class AnagramsSuite extends FunSuite {
     )
     assert(combinations(abba).toSet === abbacomb.toSet)
   }
-
+  
+  
+  test("reduce reduces count for target pair") {
+    val list = List(('x', 5), ('y', 3), ('z', 2))
+    assert(reduce(1, list) === List(('x', 5), ('y', 2), ('z', 2)))
+  }
+  
+  test("reduce removes item if count is 1") {
+    val list = List(('x', 1), ('y', 3), ('z', 2))
+    assert(reduce(0, list) === List(('y', 3), ('z', 2)))
+  }
 
 
   test("sentence anagrams: []") {

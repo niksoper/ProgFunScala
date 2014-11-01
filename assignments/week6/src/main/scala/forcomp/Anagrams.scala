@@ -84,11 +84,33 @@ object Anagrams {
    *  in the example above could have been displayed in some other order.
    */
   def combinations(occurrences: Occurrences): List[Occurrences] = {
+
+    val rest = 
+      if (occurrences.isEmpty) List(Nil)
+      else {
     
-    ???
+        val reductions = {
+          for {
+            i <- 0 until occurrences.length
+          } yield reduce(i, occurrences)
+        }.toList
     
+        reductions.flatMap(combinations(_))
+
+      }
+    
+    (occurrences :: rest).toSet.toList
+  
   }
 
+  def del[T](i: Int, list: List[T]): List[T] = list.take(i) ::: list.drop(i+1)
+    
+  def reduce(n: Int, occs: Occurrences): Occurrences = {
+    val nth: (Char, Int) = occs(n)
+    if (nth._2 > 1) occs.updated(n, (nth._1, nth._2 - 1))
+    else del(n, occs)
+  }
+  
   /** Subtracts occurrence list `y` from occurrence list `x`.
    * 
    *  The precondition is that the occurrence list `y` is a subset of

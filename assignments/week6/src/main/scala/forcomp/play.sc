@@ -29,11 +29,43 @@ object play {
   
   }                                               //> reduceHeadCount: (pairs: List[(Char, Int)])List[List[(Char, Int)]]
   
-  val pairs = List(('a', 2), ('b', 2))            //> pairs  : List[(Char, Int)] = List((a,2), (b,2))
+  val pairs = List(('a', 2), ('b', 2), ('c', 3))  //> pairs  : List[(Char, Int)] = List((a,2), (b,2), (c,3))
 
-  reduceHeadCount(pairs) //foreach { println }    //> horse: List((a,2), (a,1), (b,2), (b,1))
-}
-  //reduceHeadCount(removeAt(0, pairs)) foreach {println}
-  //reduceHeadCount(removeAt(1, pairs)) foreach {println}
+  combinations(pairs) foreach println             //> List((b,1), (c,2))
+                                                  //| List((b,1), (c,1))
+                                                  //| List((b,1), (c,3))
+                                                  //| List((a,1), (b,2), (c,1))
+                                                  //| List((c,1))
+                                                  //| List((a,1))
+                                                  //| List((b,1))
+                                                  //| List((a,1), (c,1))
+                                                  //| List((a,2), (b,1), (c,3))
+                                                  //| List((b,2))
+                                                  //| List((a,1), (b,1))
+                                                  //| List((b,2), (c,1))
+                                                  //| List((a,2), (c,2))
+                                                  //| List((b,2), (c,3))
+                                                  //| List()
+                                                  //| List((a,2), (b,2), (c,3))
+                                                  //| List((a,2), (c,1))
+                                                  //| List((a,2), (b,1), (c,1))
+                                                  //| List((a,1), (b,2), (c,2))
+                                                  //| List((a,2), (b,2), (c,1))
+                                                  //| List((a,1), (b,1), (c,1))
+                                                  //| List((a,1), (b,1), (c,3))
+                                                  //| List((a,2), (b,1))
+                                                  //| List((a,2), (b,2), (c,2))
+                                                  //| List((b,2), (c,2))
+                                                  //| List((a,2), (b,1), (c,2))
+                                                  //| List((c,2))
+                                                  //| List((a,1), (c,2))
+                                                  //| List((a,2))
+                                                  //| List((a,1), (b,2))
+                                                  //| List((a,2), (b,2))
+                                                  //| List((c,3))
+                                                  //| List((a,2), (c,3))
+                                                  //| List((a,1), (b,1), (c,2))
+                                                  //| List((a,1), (c,3))
+                                                  //| List((a,1), (b,2), (c,3))
 
 }
