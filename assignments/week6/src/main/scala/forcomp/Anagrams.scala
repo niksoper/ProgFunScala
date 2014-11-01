@@ -33,10 +33,17 @@ object Anagrams {
    *  Note: the uppercase and lowercase version of the character are treated as the
    *  same character, and are represented as a lowercase character in the occurrence list.
    */
-  def wordOccurrences(w: Word): Occurrences = w.toLowerCase.toList.sorted match{
-    case Nil => Nil
-    case head :: tail => (head, tail.count(c => c == head) + 1) :: wordOccurrences(tail.filter(c => c != head).mkString)
+  def wordOccurrences(w: Word): Occurrences = {
+    val grouped = w.toLowerCase groupBy (c => c) map (p => (p._1 -> p._2.length)) toList
+    val sorted = grouped.sortWith((a: (Char, Int), b: (Char, Int)) => a._1 < b._1)    
+    sorted
   }
+    
+//  def wordOccurrences(w: Word): Occurrences = {
+//    w.toLowerCase.toList.sorted match{
+//    case Nil => Nil
+//    case head :: tail => (head, tail.count(c => c == head) + 1) :: wordOccurrences(tail.filter(c => c != head).mkString)
+//  }
 
   /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = wordOccurrences(s.flatten mkString)
@@ -130,7 +137,9 @@ object Anagrams {
     }
     
 
-    y.foldLeft(x.toMap)(helper) toList
+    val l = y.foldLeft(x.toMap)(helper) toList
+    
+    l.sortWith((a: (Char, Int), b: (Char, Int)) => a._1 < b._1)
     
   }
 
@@ -174,6 +183,38 @@ object Anagrams {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    
+	  List(Nil)
+    
+//    def accumulate(occs: Occurrences, acc: List[Sentence]): List[Sentence] = {
+//      if (occs.isEmpty) acc
+//      else {
+//        
+//        val wordsForOccs = wordsFromOccurrences(occs)
+//        
+//        wordForOccs.flatMap(Sentence)
+//        
+//      }
+//    }
+//    
+//    accumulate(sentenceOccurrences(sentence), List(Nil))
+    
+    //subtract(sentenceOccurrences(sentence), wordOccurrences(allWords(0)))
+    
+  }
+  
+  def wordsFromSentence(s: Sentence): Sentence = wordsFromOccurrences(sentenceOccurrences(s))
+  
+  def wordsFromOccurrences(occs: Occurrences): Sentence = {
+    
+    val combs = combinations(occs)
+  
+    for {
+      word <- dictionary
+      if (combs.contains(wordOccurrences(word)))
+    } yield word
+
+  }
 
 }
