@@ -187,26 +187,50 @@ object Anagrams {
     
     List(Nil)
     
-//	  if (sentence.isEmpty) List(Nil)
-//	  else {
-//	    
-//	    
-//	    
-//	  }
+//    def helper(occs: Occurrences, sentences: List[Sentence]): List[Sentence] = occs match {
+//      
+//      case Nil => sentences
+//      case _ => {
+//        
+//        
+//      
+//        for {
+//          w <- wordsFromOccurrences(occs)
+//        } yield helper(subtract(occs, wordOccurrences(w)), w :: sentences)
+//        
+//      }
+//      
+//      
+//      
+//    }
+//    
+//    helper(sentenceOccurrences(sentence), List(Nil))
     
   }
   
   def wordsFromSentence(s: Sentence): Sentence = wordsFromOccurrences(sentenceOccurrences(s))
   
-  def wordsFromOccurrences(occs: Occurrences): Sentence = {
+  def wordsFromOccurrences(occs: Occurrences): List[Word] = {
+      
+    val allcombs = combinations(occs)
+      
+    val words = { 
+      for {
+        comb <- allcombs
+        if (dictionaryByOccurrences contains comb)
+      } yield dictionaryByOccurrences(comb)
+    } flatten
+      
+    words
     
-    val combs = combinations(occs)
+  }
   
+  def makeSentences(startWord: Word, occs: Occurrences): List[Sentence] = {
+    val remainingOccs = subtract(occs, wordOccurrences(startWord))
     for {
-      word <- dictionary
-      if (combs.contains(wordOccurrences(word)))
-    } yield word
-
+      comb <- combinations(occs)
+      w <- wordsFromOccurrences(comb)
+    } yield List(startWord, w)
   }
 
 }
