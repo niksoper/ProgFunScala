@@ -4,11 +4,14 @@ import streams._
 
 object play {
   
-  val v: Vector[Vector[Char]] = Vector(Vector('a', 'b', 'c'), Vector('d', 'e', 'f'))
-                                                  //> v  : Vector[Vector[Char]] = Vector(Vector(a, b, c), Vector(d, e, f))
-  v.indexWhere(_.indexOf('d') != -1)              //> res0: Int = 1
+  new StringParserTerrain with Solver {
   
- // val v = Vector(1,2,3)
-  //v.indexWhere(_ % 2 == 0)
+    val level = "oSooT"
+    
+    println(done(startBlock.right.right))
+  
+  }                                               //> true
+                                                  //| res0: streams.StringParserTerrain with streams.Solver{} = streams.play$$anon
+                                                  //| fun$main$1$$anon$1@578cad92
   
 }
