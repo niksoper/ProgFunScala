@@ -66,6 +66,24 @@ trait Solver extends GameDef {
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
     
+    if (initial.isEmpty) Stream.empty
+    else {
+      
+      val more = for {
+        move <- initial
+        next <- newNeighborsOnly(neighborsWithHistory(move._1, move._2), explored)
+      } yield next
+      
+      println("--------------------")
+      more.toList foreach println
+      println("--------------------")
+      
+      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
+      
+    }
+    
+  }
+    
 //    println("--------------------")
 //    initial.toList foreach println
 //    println("--------------------")
@@ -96,18 +114,18 @@ trait Solver extends GameDef {
 //      initial ++ from(nextMoves, (nextMoves.toList.map { case (b, _) => b } toSet) ++ explored)
 //    }
     
-    if (initial.isEmpty) Stream.empty
-    else {
-      
-      val more = initial.flatMap { case (b, mvs) => newNeighborsOnly(neighborsWithHistory(b, mvs), explored) }
-      
-      println("--------------------")
-      more.toList foreach println
-      println("--------------------")
-      
-      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
-      
-    }
+//    if (initial.isEmpty) Stream.empty
+//    else {
+//      
+//      val more = initial.flatMap { case (b, mvs) => newNeighborsOnly(neighborsWithHistory(b, mvs), explored) }
+//      
+//      println("--------------------")
+//      more.toList foreach println
+//      println("--------------------")
+//      
+//      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
+//      
+//    }
     
 //    if (initial.isEmpty) Stream.empty
 //    else {
@@ -124,8 +142,8 @@ trait Solver extends GameDef {
 //      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
 //      
 //    }
-    
-  }
+//    
+//  }
             
     
 
