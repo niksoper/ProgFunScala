@@ -40,6 +40,14 @@ class BloxorzSuite extends FunSuite {
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
+  trait SimpleLevel extends SolutionChecker {
+    
+    val level = """|oSoooooT
+                   |-oooo---
+                   |-oo-----""".stripMargin
+    
+  }
+  
   test("terrain function level 1") {
     new Level1 {
       assert(terrain(Pos(0,0)), "0,0")
@@ -56,6 +64,65 @@ class BloxorzSuite extends FunSuite {
     }
   }
 
+  test("pathsFromStart - Level 1") {
+    new Level1 {
+      
+      val expected = Set(
+    		  				(Block(Pos(1, 2), Pos(1, 3)), List(Right)),
+    		  				(Block(Pos(2, 1), Pos(3, 1)), List(Down))
+    		  			 )	
+      
+      assert((pathsFromStart take 2).toSet === expected)
+    		  			 
+    }
+  }
+  
+  test("pathsFromStart - Simple level take 2") {
+    new SimpleLevel {
+      
+      val expected = Set(
+    		  				(Block(Pos(0, 2), Pos(0, 3)), List(Right)),
+    		  				(Block(Pos(1, 1), Pos(2, 1)), List(Down))
+    		  			 )	
+      
+      assert((pathsFromStart take 2).toSet === expected)
+    		  			 
+    }
+  }
+  
+  test("pathsFromStart - Simple level take 5") {
+    new SimpleLevel {
+      
+      val expected = Set(
+    		  				(Block(Pos(0, 2), Pos(0, 3)), List(Right)),
+    		  				(Block(Pos(1, 1), Pos(2, 1)), List(Down)),
+    		  				(Block(Pos(1, 2), Pos(1, 3)), List(Down,Right)),
+    		  				(Block(Pos(0, 4), Pos(0, 4)), List(Right,Right)),
+    		  				(Block(Pos(1, 2), Pos(2, 2)), List(Right,Down))
+    		  			 )	
+      
+      assert((pathsFromStart take 5).toSet === expected)
+    		  			 
+    }
+  }
+  
+  test("pathsFromStart - Simple level take 6") {
+    new SimpleLevel {
+      
+      val expected = Set(
+    		  				(Block(Pos(0, 2), Pos(0, 3)), List(Right)),
+    		  				(Block(Pos(1, 1), Pos(2, 1)), List(Down)),
+    		  				(Block(Pos(1, 2), Pos(1, 3)), List(Down,Right)),
+    		  				(Block(Pos(0, 4), Pos(0, 4)), List(Right,Right)),
+    		  				(Block(Pos(1, 2), Pos(2, 2)), List(Right,Down)),
+    		  				(Block(Pos(0, 5), Pos(0, 6)), List(Right,Right,Right))
+    		  			 )	
+      
+      assert((pathsFromStart take 5).toSet === expected)
+    		  			 
+    }
+  }
+  
   test("neighborsWithHistory") {
     new Level1 {
       val expected = Set(

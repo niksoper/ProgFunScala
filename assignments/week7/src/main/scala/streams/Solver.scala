@@ -36,14 +36,8 @@ trait Solver extends GameDef {
    * positions that have already been explored. We will use it to
    * make sure that we don't explore circular paths.
    */
-  def newNeighborsOnly(neighbors: Stream[(Block, List[Move])],
-                       explored: Set[Block]): Stream[(Block, List[Move])] = {
-      
-      def includeNeighbor(n: (Block, List[Move])): Boolean = !explored.contains(n._1)
-      
-      neighbors filter (includeNeighbor)
-      
-  }
+  def newNeighborsOnly(neighbors: Stream[(Block, List[Move])], explored: Set[Block]): Stream[(Block, List[Move])] =
+    neighbors filter { case (b, _) => !explored.contains(b) }
     
     
   /**
@@ -72,10 +66,32 @@ trait Solver extends GameDef {
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
     
-    newNeighborsOnly(neighborsWithHistory(initial.head._1, initial.head._2), explored)
-    
-//    if (initial.isEmpty) newNeighborsOnly(neighborsWithHistory(startBlock, Nil), explored)
-//    else newNeighborsOnly(neighborsWithHistory(initial.head._1, initial.head._2), explored) ::: from
+    if (initial.isEmpty) Stream.empty
+    else {
+      
+      val more = for {
+        move <- initial
+        next <- newNeighborsOnly(neighborsWithHistory(move._1, move._2), explored)
+      } yield next
+      
+      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
+      
+//(Block(Pos(0,4),Pos(0,4)),List(Right, Right)), 
+//(Block(Pos(0,2),Pos(0,3)),List(Right)), 
+//(Block(Pos(1,2),Pos(2,2)),List(Right, Down)), 
+//(Block(Pos(1,1),Pos(2,1)),List(Down)), 
+//(Block(Pos(1,2),Pos(1,3)),List(Down, Right))) 
+//
+//did not equal 
+//
+//(Block(Pos(0,4),Pos(0,4)),List(Right, Right)), 
+//(Block(Pos(0,2),Pos(0,3)),List(Right)), 
+//(Block(Pos(1,2),Pos(2,2)),List(Right, Down)), 
+//(Block(Pos(1,1),Pos(2,1)),List(Down)), 
+//(Block(Pos(0,5),Pos(0,6)),List(Right, Right, Right)), 
+//(Block(Pos(1,2),Pos(1,3)),List(Down, Right)))
+      
+    }
     
   }
             
@@ -84,7 +100,14 @@ trait Solver extends GameDef {
   /**
    * The stream of all paths that begin at the starting block.
    */
-  lazy val pathsFromStart: Stream[(Block, List[Move])] = ???
+  lazy val pathsFromStart: Stream[(Block, List[Move])] = {
+    
+    val startSet = Set(startBlock)
+    val allMovesFromStart = neighborsWithHistory(startBlock, Nil)
+    val legalMovesFromStart = newNeighborsOnly(allMovesFromStart, startSet)
+    
+    from(legalMovesFromStart, startSet)
+  }
 
   /**
    * Returns a stream of all possible pairs of the goal block along

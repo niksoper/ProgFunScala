@@ -6,15 +6,14 @@ object play {
   
   new StringParserTerrain with Solver {
   
-    val level = "oSooT"
+    val level = """|oSoooooT
+                   |oooooooo
+                   |oooooooo""".stripMargin
     
-    println(done(startBlock.right.right))
+    ((pathsFromStart take 1).toList) foreach println
   
-  }                                               //> true
+  }                                               //> (Block(Pos(0,2),Pos(0,3)),List(Right))
                                                   //| res0: streams.StringParserTerrain with streams.Solver{} = streams.play$$anon
-                                                  //| fun$main$1$$anon$1@12c50438
+                                                  //| fun$main$1$$anon$1@34f5690d
   
-  val s = Stream(1, 2, 3)                         //> s  : scala.collection.immutable.Stream[Int] = Stream(1, ?)
-  s.head                                          //> res1: Int = 1
-  s.tail                                          //> res2: scala.collection.immutable.Stream[Int] = Stream(2, ?)
 }
