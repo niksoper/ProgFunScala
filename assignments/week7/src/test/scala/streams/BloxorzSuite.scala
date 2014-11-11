@@ -48,6 +48,47 @@ class BloxorzSuite extends FunSuite {
     
   }
   
+  trait SuperSimpleLevel extends SolutionChecker {
+    
+    val level = """|oSoooooT""".stripMargin
+    
+  }
+  
+  trait Level3 extends SolutionChecker {
+    /* terrain for level 3: passcode 918660 */
+    val level = 
+    """------ooooooo--
+      |oooo--ooo--oo--
+      |ooooooooo--oooo
+      |oSoo-------ooTo
+      |oooo-------oooo
+      |------------ooo""".stripMargin
+      
+      val optsolution = List(Up, Right, Down, Down, Down, Right, Right, Right, Up, Up, Right, Down, Left, Up, Right, Right, Right, Up, Right)
+  }
+  
+  trait LevelWithoutSolution extends SolutionChecker {
+    val level =  """SoT""".stripMargin
+  }
+
+  test("level with no solution") {
+    new LevelWithoutSolution {
+      assert(solution.isEmpty)
+    }
+  }
+  
+  test("optimal solution for level 3") {
+    new Level3 {
+      assert(solve(solution) === Block(goal, goal))
+    }
+  }
+  
+  test("optimal solution length for level 3") {
+    new Level3 {
+      assert(solution.length === optsolution.length)
+    }
+  }
+  
   test("terrain function level 1") {
     new Level1 {
       assert(terrain(Pos(0,0)), "0,0")
@@ -118,8 +159,29 @@ class BloxorzSuite extends FunSuite {
     		  				(Block(Pos(0, 5), Pos(0, 6)), List(Right,Right,Right))
     		  			 )	
       
-      assert((pathsFromStart take 5).toSet === expected)
+      assert((pathsFromStart take 6).toSet === expected)
     		  			 
+    }
+  }
+  
+  test("pathsFromStart - Super simple level") {
+    new SuperSimpleLevel {
+      //01234567
+      //oSoooooT
+      //__xx____ R
+      //____x___ RR
+      //_____xx_ RRR
+      //_______x RRRR
+        
+      val expected = Set(
+    		  				(Block(Pos(0, 2), Pos(0, 3)), List(Right)),
+    		  				(Block(Pos(0, 4), Pos(0, 4)), List(Right,Right)),
+    		  				(Block(Pos(0, 5), Pos(0, 6)), List(Right,Right,Right)),
+    		  				(Block(Pos(0, 7), Pos(0, 7)), List(Right,Right,Right,Right))
+    		  			 )	
+      
+      assert((pathsFromStart take 100).toSet === expected)
+      
     }
   }
   
