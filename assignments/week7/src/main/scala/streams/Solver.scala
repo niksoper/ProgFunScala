@@ -10,7 +10,7 @@ trait Solver extends GameDef {
   /**
    * Returns `true` if the block `b` is at the final position
    */
-  def done(b: Block): Boolean = b.isStanding && b.b1 == goal
+  def done(b: Block): Boolean = b == Block(goal, goal)
 
   /**
    * This function takes two arguments: the current block `b` and
@@ -68,12 +68,9 @@ trait Solver extends GameDef {
     if (initial.isEmpty) Stream.empty
     else {
       
-      val more = for {
-        move <- initial
-        next <- newNeighborsOnly(neighborsWithHistory(move._1, move._2), explored)
-      } yield next
+      val more = initial flatMap { case (b, mvs) => newNeighborsOnly(neighborsWithHistory(b, mvs), explored) }
 
-      more ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
+      more ++ from(more, (more map { case (b, _) => b } toSet) ++ explored)
       
     }
     
@@ -88,7 +85,7 @@ trait Solver extends GameDef {
    * Returns a stream of all possible pairs of the goal block along
    * with the history how it was reached.
    */
-  lazy val pathsToGoal: Stream[(Block, List[Move])] = pathsFromStart filter { case (b, mvs) => b == Block(goal, goal) }
+  lazy val pathsToGoal: Stream[(Block, List[Move])] = pathsFromStart filter { case (b, mvs) => done(b) }
 
   /**
    * The (or one of the) shortest sequence(s) of moves to reach the
