@@ -185,6 +185,86 @@ class BloxorzSuite extends FunSuite {
     }
   }
   
+  test("newNeighborsOnly - empty if all positions explored") {
+    new SuperSimpleLevel {
+      //01234567
+      //oSoooooT
+      //__xx____ R
+      //____x___ RR
+      //_____xx_ RRR
+      //_______x RRRR
+        
+      val neighbors = Set(
+						    (Block(Pos(0,5),Pos(0,6)), List(Left,Right,Right,Right,Right))
+						  ).toStream
+      
+      val explored = Set(
+    		  				Block(Pos(0,1),Pos(0,1)), 
+    		  				Block(Pos(0,2),Pos(0,3)), 
+    		  				Block(Pos(0,4),Pos(0,4)),
+    		  				Block(Pos(0,5),Pos(0,6))
+    		  			)
+    		  			
+      assert(newNeighborsOnly(neighbors, explored) === Stream.empty)
+      
+    }
+  }
+  
+  test("from - super simple third move") {
+    new SuperSimpleLevel {
+      //01234567
+      //oSoooooT
+      //__xx____ R
+      //____x___ RR
+      //_____xx_ RRR
+      //_______x RRRR
+        
+      val initial = Stream((Block(Pos(0,4),Pos(0,4)), List(Right,Right)))
+      
+      val explored = Set(
+    		  				Block(Pos(0,1),Pos(0,1)), 
+    		  				Block(Pos(0,2),Pos(0,3)), 
+    		  				Block(Pos(0,4),Pos(0,4))
+    		  			)
+    		  			
+      assert(from(initial, explored).head === (Block(Pos(0,5),Pos(0,6)), List(Right,Right,Right)))
+      
+    }
+  }
+  
+  
+  test("pathsFromStart - super simple first move") {
+    new SuperSimpleLevel {
+      
+      assert(pathsFromStart.head === (Block(Pos(0,2),Pos(0,3)), List(Right)))
+      
+    }
+  }
+  
+  test("pathsFromStart - super simple second move") {
+    new SuperSimpleLevel {
+      
+      assert(pathsFromStart.drop(1).head === (Block(Pos(0,4),Pos(0,4)), List(Right,Right)))
+      
+    }
+  }
+  
+  test("pathsFromStart - super simple third move") {
+    new SuperSimpleLevel {
+      
+      assert(pathsFromStart.drop(2).head === (Block(Pos(0,5),Pos(0,6)), List(Right,Right,Right)))
+      
+    }
+  }
+  
+  test("pathsFromStart - super simple fourth move") {
+    new SuperSimpleLevel {
+      
+      assert(pathsFromStart.drop(3).head === (Block(Pos(0,7),Pos(0,7)), List(Right,Right,Right,Right)))
+      
+    }
+  }
+  
   test("neighborsWithHistory") {
     new Level1 {
       val expected = Set(

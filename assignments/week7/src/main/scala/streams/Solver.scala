@@ -38,8 +38,7 @@ trait Solver extends GameDef {
    */
   def newNeighborsOnly(neighbors: Stream[(Block, List[Move])], explored: Set[Block]): Stream[(Block, List[Move])] =
     neighbors filter { case (b, _) => !explored.contains(b) }
-    
-    
+        
   /**
    * The function `from` returns the stream of all possible paths
    * that can be followed, starting at the `head` of the `initial`
@@ -73,106 +72,23 @@ trait Solver extends GameDef {
         move <- initial
         next <- newNeighborsOnly(neighborsWithHistory(move._1, move._2), explored)
       } yield next
-      
-      println("--------------------")
-      more.toList foreach println
-      println("--------------------")
-      
-      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
+
+      more ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
       
     }
     
   }
-    
-//    println("--------------------")
-//    initial.toList foreach println
-//    println("--------------------")
-    
-//    if (initial.isEmpty) Stream.empty
-//    else {
-//      val headBlock = initial.head._1
-//      val headMoves = initial.head._2
-//	  val next = newNeighborsOnly(neighborsWithHistory(headBlock, headMoves), explored)
-//      val result = initial ++ from(next, (next.map { case (b, mvs) => b } toSet) ++ explored)
-//      
-//      result
-//    }
-    
-//    if (initial.isEmpty) Stream.empty
-//    else {
-//	  val next = newNeighborsOnly(initial, explored)
-//      val result = initial ++ from(next, (next.map { case (b, mvs) => b } toSet) ++ explored)
-//      
-//      result
-//    }
-    
-    
-//    if (initial.isEmpty) Stream.empty
-//    else {
-//      val nextMoves = newNeighborsOnly(neighborsWithHistory(initial.head._1, initial.head._2), Set(initial.head._1) ++ explored)
-//      
-//      initial ++ from(nextMoves, (nextMoves.toList.map { case (b, _) => b } toSet) ++ explored)
-//    }
-    
-//    if (initial.isEmpty) Stream.empty
-//    else {
-//      
-//      val more = initial.flatMap { case (b, mvs) => newNeighborsOnly(neighborsWithHistory(b, mvs), explored) }
-//      
-//      println("--------------------")
-//      more.toList foreach println
-//      println("--------------------")
-//      
-//      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
-//      
-//    }
-    
-//    if (initial.isEmpty) Stream.empty
-//    else {
-//      
-//      val more = for {
-//        move <- initial
-//        next <- newNeighborsOnly(neighborsWithHistory(move._1, move._2), explored)
-//      } yield next
-//      
-//      println("--------------------")
-//      more.toList foreach println
-//      println("--------------------")
-//      
-//      initial ++ from(more, (more.toList.map { case (b, _) => b } toSet) ++ explored)
-//      
-//    }
-//    
-//  }
-            
-    
 
   /**
    * The stream of all paths that begin at the starting block.
    */
-  lazy val pathsFromStart: Stream[(Block, List[Move])] = {
+  lazy val pathsFromStart: Stream[(Block, List[Move])] = from(Stream((startBlock, Nil)), Set(startBlock))
 
-    val startSet = Set(startBlock)
-    val allMovesFromStart = neighborsWithHistory(startBlock, Nil)
-    val legalMovesFromStart = newNeighborsOnly(allMovesFromStart, startSet)
-    
-    from(legalMovesFromStart, startSet)
-    
-  }
-
-
-
-  
   /**
    * Returns a stream of all possible pairs of the goal block along
    * with the history how it was reached.
    */
-  lazy val pathsToGoal: Stream[(Block, List[Move])] = {
-    
-    println(pathsFromStart toList)
-    
-    pathsFromStart filter { case (b, mvs) => b == goal }
-  }
+  lazy val pathsToGoal: Stream[(Block, List[Move])] = pathsFromStart filter { case (b, mvs) => b == Block(goal, goal) }
 
   /**
    * The (or one of the) shortest sequence(s) of moves to reach the
